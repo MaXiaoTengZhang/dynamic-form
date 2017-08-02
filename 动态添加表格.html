@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>加工表格</title>
+	<style>
+*{margin:0;padding: 0;}
+span{vertical-align: top;}
+p{color: red;opacity: 0;margin-left: 35px;}
+input.error{border:1px solid #f10;}
+
+
+
+	</style>
+</head>
+<body>
+	<span>标题:</span><input type="text" size="60" id="biao"><p id="bt">请输入4-30个字符的标题</p><br>
+	<span>内容:</span><textarea name="" id="conter" cols="60" rows="20"></textarea><p id="nr">请输入10-10000个字符的内容</p><br>
+	<button id="btn">发表</button>
+	<table id="list" border=1>
+			<tr>
+				<th>标题</th>
+				<th>内容</th>
+				<th>操作</th>
+				
+			</tr>
+			<tr>
+				<td>产品外观结构</td>				
+				<td>现在产品有多种外观结构没有实现标准化，无法体现追日的特色</td>				
+				<td><a name="del" href="#">删除</a></td>
+			</tr>
+			
+			<table>
+
+</body>
+<script>
+//绑定各个事件，并获取input的内容值；
+ var oBtn = document.getElementById("btn");
+ var oBt = document.getElementById("bt");
+ var oNr = document.getElementById("nr");
+
+ oBtn.onclick =	function(){
+ 	 var oBiao = document.getElementById("biao").value;
+ 	 var oCon = document.getElementById("conter").value;
+	 var _tab = document.getElementById("list");
+ 	//克隆表格第一行的内容；
+ 	// console.log(oBiao)
+ 	if(oBiao != "" && oCon !=""){
+ 		var _tr = _tab.children[0].children[1].cloneNode(true);
+	 	_tr.children[0].innerHTML = oBiao;
+		_tr.children[1].innerHTML = oCon;
+	 	_tab.appendChild(_tr);
+ 	}
+ 	//正则控制
+ 	var oC = document.getElementById("conter");
+ 	oC.onblur =function(){
+		var reg =/^[\u4E00-\u9FA5]{10,10000}$/;
+		if(reg.test(this.value)){			
+			// //当前节点的后一个同级节点；样式隐藏；
+			this.nextSibling.style.opacity = "0";
+		}else{
+			// //当前节点的后一个同级节点；样式显现；
+			this.nextSibling.style.opacity = "1";
+			
+		}
+	}
+	var oB = document.getElementById("biao");
+ 	oB.onblur =function(){
+		var reg =/^[\u4E00-\u9FA5]{4,30}$/;
+		if(reg.test(this.value)){			
+			// //当前节点的后一个同级节点；样式隐藏；
+			this.nextSibling.style.opacity = "0";
+		}else{
+			// //当前节点的后一个同级节点；样式显现；
+			this.nextSibling.style.opacity = "1";
+
+		}
+	}
+
+	//删除表格数据：
+	var oD = document.getElementsByName("del");
+	for(var j=0;j<oD.length;j++){
+			oD[j].onclick = function(ev){
+				this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode)
+				var e = ev||event;
+				e.stopPropagation?e.stopPropagation:e.cancelBubble=true;
+			}
+		}	
+ }
+ 
+
+
+</script>
+</html>
